@@ -67,32 +67,16 @@ router.get('/', isAuth, eventIsolation, async (req, res) => {
       return res.json({ recommendations: [] });
     }
 
-    // Send both booking history and all activities to ML API
-    let mlRes;
-    try {
-      mlRes = await axios.post('http://localhost:5001/recommend', {
-        activity_history: activityHistory,
-        booked_ids: bookedIds,
-        all_activities: allActivities
-      }, {
-        timeout: 5000 // 5 second timeout
-      });
-      res.json(mlRes.data);
-    } catch (mlErr) {
-      console.error('ML API error:', mlErr?.response?.data || mlErr.message);
-      
-      // Fallback: return top 3 most popular activities from user's event
-      const fallbackRecommendations = allActivities
-        .sort((a, b) => (b.popularity || 0) - (a.popularity || 0))
-        .slice(0, 3)
-        .map(a => a.title);
-      
-      res.json({ 
-        recommendations: fallbackRecommendations,
-        fallback: true,
-        message: 'Using fallback recommendations due to ML service unavailability'
-      });
-    }
+    // Call ML API for recommendations
+    const mlApiUrl = process.env.ML_API_URL || 'http://localhost:5001';
+    const response = await axios.post(`${mlApiUrl}/recommend`, {
+      booked_ids: bookedIds,
+      all_activities: allActivities,
+      activity_history: activityHistory
+    }, {
+      timeout: 5000 // 5 second timeout
+    });
+    res.json(response.data);
   } catch (err) {
     console.error('Recommend route error:', err);
     res.status(500).json({ message: err.message });
