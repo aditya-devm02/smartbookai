@@ -10,6 +10,7 @@ type Activity = {
   category: string;
   date: string;
   slots: number;
+  duration?: number;
 };
 
 type Booking = {
