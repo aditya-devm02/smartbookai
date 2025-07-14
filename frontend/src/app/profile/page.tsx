@@ -170,15 +170,15 @@ export default function Profile() {
       {/* <div className={styles.bgAnimated} /> */}
       <NavBar />
       <main style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #181824 0%, #23234a 100%)', padding: 0 }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', padding: '56px 16px 40px 16px' }}>
+        <div style={{ maxWidth: 900, margin: '0 auto', padding: 'clamp(24px, 6vw, 56px) 8px 40px 8px' }}>
           {/* Event info header */}
           {event && (
-            <div style={{ display: 'flex', alignItems: 'center', marginLeft: 8, marginBottom: 36, gap: 32 }}>
+            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', marginLeft: 8, marginBottom: 36, gap: 24 }}>
               {event.branding?.logoUrl && (
                 <Image src={event.branding.logoUrl} alt="Event Logo" width={90} height={90} style={{ objectFit: 'contain', borderRadius: 18, background: '#fff', marginRight: 0, boxShadow: '0 4px 24px #007cf022' }} />
               )}
-              <div>
-                <div style={{ color: event.branding?.primaryColor || '#00dfd8', fontFamily: 'Inter, Segoe UI, Arial, sans-serif', fontWeight: '800', fontSize: '2.1rem', letterSpacing: '0.5px', marginBottom: 8, textShadow: '0 2px 8px #0002', lineHeight: 1.1 }}>{event.name}</div>
+              <div style={{ minWidth: 180 }}>
+                <div style={{ color: event.branding?.primaryColor || '#00dfd8', fontFamily: 'Inter, Segoe UI, Arial, sans-serif', fontWeight: '800', fontSize: 'clamp(1.2rem, 4vw, 2.1rem)', letterSpacing: '0.5px', marginBottom: 8, textShadow: '0 2px 8px #0002', lineHeight: 1.1 }}>{event.name}</div>
                 <div style={{ color: event.branding?.secondaryColor || '#ff0080', fontFamily: 'Inter, Segoe UI, Arial, sans-serif', fontWeight: '600', fontSize: '1.1rem', marginBottom: 10, letterSpacing: '0.2px', textShadow: '0 1px 4px #0001', lineHeight: 1.1 }}>{event.slug}</div>
                 {event.category && <div style={{ color: '#007cf0', fontWeight: 500, fontSize: '1rem', marginBottom: 4, fontFamily: 'Inter, Segoe UI, Arial, sans-serif' }}>Category: {event.category}</div>}
                 {event.date && <div style={{ color: '#232323', fontWeight: 500, fontSize: '1rem', marginBottom: 4, fontFamily: 'Inter, Segoe UI, Arial, sans-serif' }}>Date: {new Date(event.date).toLocaleDateString()}</div>}
@@ -187,46 +187,46 @@ export default function Profile() {
             </div>
           )}
           {/* User card */}
-          <div className="card" style={{ background: 'rgba(24,24,40,0.92)', borderRadius: 22, boxShadow: '0 4px 32px #007cf044', padding: 36, marginBottom: 48, display: 'flex', alignItems: 'center', gap: 32, flexWrap: 'wrap', border: '1.5px solid #00dfd8', transition: 'box-shadow 0.3s', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both' }}>
-            <div style={{ width: 110, height: 110, borderRadius: '50%', background: 'linear-gradient(135deg, #00dfd8 0%, #7928ca 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, color: '#fff', fontWeight: 900, boxShadow: '0 2px 12px #007cf022', border: '4px solid #fff' }}>
+          <div className="card" style={{ background: 'rgba(24,24,40,0.92)', borderRadius: 22, boxShadow: '0 4px 32px #007cf044', padding: 'clamp(18px, 5vw, 36px)', marginBottom: 48, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 24, border: '1.5px solid #00dfd8', transition: 'box-shadow 0.3s', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both' }}>
+            <div style={{ width: 90, height: 90, borderRadius: '50%', background: 'linear-gradient(135deg, #00dfd8 0%, #7928ca 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, color: '#fff', fontWeight: 900, boxShadow: '0 2px 12px #007cf022', border: '4px solid #fff', marginBottom: 8 }}>
               {user.username.charAt(0).toUpperCase()}
             </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontWeight: 800, fontSize: 32, color: '#fff', marginBottom: 8, fontFamily: 'Inter, Segoe UI, Arial, sans-serif', letterSpacing: 0.5, textShadow: '0 2px 8px #0004' }}>{user.username}</div>
-              <div style={{ color: '#b0b0b0', fontSize: 20, marginBottom: 10, fontFamily: 'Inter, Segoe UI, Arial, sans-serif', fontWeight: 500 }}>{user.email}</div>
-              <div style={{ color: '#00dfd8', fontWeight: 700, fontSize: 22, fontFamily: 'Inter, Segoe UI, Arial, sans-serif', marginTop: 6 }}>Event: {event?.name || 'N/A'}</div>
+            <div style={{ flex: 1, minWidth: 180 }}>
+              <div style={{ fontWeight: 800, fontSize: 'clamp(1.2rem, 5vw, 2rem)', color: '#fff', marginBottom: 8, fontFamily: 'Inter, Segoe UI, Arial, sans-serif', letterSpacing: 0.5, textShadow: '0 2px 8px #0004' }}>{user.username}</div>
+              <div style={{ color: '#b0b0b0', fontSize: 'clamp(1rem, 4vw, 1.25rem)', marginBottom: 10, fontFamily: 'Inter, Segoe UI, Arial, sans-serif', fontWeight: 500 }}>{user.email}</div>
+              <div style={{ color: '#00dfd8', fontWeight: 700, fontSize: 'clamp(1rem, 4vw, 1.3rem)', fontFamily: 'Inter, Segoe UI, Arial, sans-serif', marginTop: 6 }}>Event: {event?.name || 'N/A'}</div>
             </div>
           </div>
-          <h2 style={{ fontSize: 28, marginBottom: 24, marginLeft: 4, textAlign: 'left', color: '#00dfd8', letterSpacing: 1 }}>My Bookings</h2>
+          <h2 style={{ fontSize: 'clamp(1.1rem, 4vw, 1.7rem)', marginBottom: 24, marginLeft: 4, textAlign: 'left', color: '#00dfd8', letterSpacing: 1 }}>My Bookings</h2>
           {error && (
             <div style={{ color: '#ff0080', fontWeight: 700, fontSize: 20, margin: '24px 0' }}>{error}</div>
           )}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, justifyContent: 'center' }}>
             {!error && bookings.length === 0 ? (
               <div style={{ color: '#00dfd8', fontWeight: 700, fontSize: 20, marginTop: 24, background: 'rgba(0,223,216,0.08)', borderRadius: 12, padding: '16px 32px' }}>No bookings yet. Book your first activity!</div>
             ) : (
               bookings.map((booking, i) => (
                 <div key={booking._id} style={{
-                  display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 28,
-                  background: 'rgba(24,24,40,0.92)', borderRadius: 22, boxShadow: '0 4px 32px #007cf044', padding: 28, minWidth: 340, maxWidth: 520, color: '#fff', border: '2px solid #00dfd8',
+                  display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 18,
+                  background: 'rgba(24,24,40,0.92)', borderRadius: 22, boxShadow: '0 4px 32px #007cf044', padding: 'clamp(14px, 4vw, 28px)', minWidth: 220, maxWidth: 520, color: '#fff', border: '2px solid #00dfd8',
                   animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both', animationDelay: `${i * 0.08 + 0.2}s`, position: 'relative', marginBottom: 8
                 }}>
                   {/* Activity logo or fallback */}
-                  <div style={{ width: 90, height: 90, borderRadius: 18, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 0, boxShadow: '0 2px 12px #007cf022' }}>
+                  <div style={{ width: 70, height: 70, borderRadius: 18, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 0, boxShadow: '0 2px 12px #007cf022', marginBottom: 8 }}>
                     {booking.activity?.imageUrl ? (
-                      <Image src={booking.activity.imageUrl} alt={booking.activity.title} width={80} height={80} style={{ objectFit: 'cover', borderRadius: 14 }} />
+                      <Image src={booking.activity.imageUrl} alt={booking.activity.title} width={60} height={60} style={{ objectFit: 'cover', borderRadius: 14 }} />
                     ) : (
-                      <span style={{ color: '#00dfd8', fontWeight: 900, fontSize: 38 }}>{booking.activity?.title?.charAt(0).toUpperCase() || '?'}</span>
+                      <span style={{ color: '#00dfd8', fontWeight: 900, fontSize: 28 }}>{booking.activity?.title?.charAt(0).toUpperCase() || '?'}</span>
                     )}
                   </div>
                   {/* Activity details */}
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', gap: 6, flex: 1 }}>
-                    <div style={{ fontWeight: 900, fontSize: 26, color: '#00dfd8', marginBottom: 2 }}>{booking.activity?.title || 'Activity'}</div>
-                    <div style={{ color: '#b0b0b0', fontSize: 17, fontWeight: 500 }}>{booking.activity?.category || ''}</div>
-                    <div style={{ color: '#007cf0', fontWeight: 600, fontSize: 16 }}>Date: {booking.activity?.date ? new Date(booking.activity.date).toLocaleDateString() : 'N/A'}</div>
-                    <div style={{ color: '#007cf0', fontWeight: 600, fontSize: 16 }}>Duration: {booking.activity?.duration || 'N/A'} min</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', gap: 6, flex: 1, minWidth: 120 }}>
+                    <div style={{ fontWeight: 900, fontSize: 'clamp(1.1rem, 4vw, 1.5rem)', color: '#00dfd8', marginBottom: 2 }}>{booking.activity?.title || 'Activity'}</div>
+                    <div style={{ color: '#b0b0b0', fontSize: 'clamp(0.9rem, 3vw, 1.1rem)', fontWeight: 500 }}>{booking.activity?.category || ''}</div>
+                    <div style={{ color: '#007cf0', fontWeight: 600, fontSize: 'clamp(0.9rem, 3vw, 1.05rem)' }}>Date: {booking.activity?.date ? new Date(booking.activity.date).toLocaleDateString() : 'N/A'}</div>
+                    <div style={{ color: '#007cf0', fontWeight: 600, fontSize: 'clamp(0.9rem, 3vw, 1.05rem)' }}>Duration: {booking.activity?.duration || 'N/A'} min</div>
                     {booking.paymentStatus && (
-                      <div style={{ fontSize: 16, fontWeight: 700, margin: '8px 0', color: booking.paymentStatus === 'approved' ? '#00dfd8' : booking.paymentStatus === 'pending' ? '#ffd700' : '#ff0080' }}>
+                      <div style={{ fontSize: 'clamp(0.9rem, 3vw, 1.05rem)', fontWeight: 700, margin: '8px 0', color: booking.paymentStatus === 'approved' ? '#00dfd8' : booking.paymentStatus === 'pending' ? '#ffd700' : '#ff0080' }}>
                         Payment: {booking.paymentStatus.charAt(0).toUpperCase() + booking.paymentStatus.slice(1)}
                       </div>
                     )}

@@ -195,10 +195,20 @@ export default function Activities() {
             Loading event info...
           </div>
         ) : (
-          <div style={{
-            display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-            margin: '0 auto', marginTop: 40, marginBottom: 48, gap: 36,
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto',
+              marginTop: 40,
+              marginBottom: 48,
+              gap: 36,
+              flexWrap: 'wrap',
+              maxWidth: 1200,
+            }}
+          >
             {event.branding?.logoUrl && (
               <Image
                 src={event.branding.logoUrl}
@@ -217,104 +227,124 @@ export default function Activities() {
             </div>
           </div>
         )}
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "40px 16px" }}>
-          <h1 className={styles.animatedHeadline} style={{ fontSize: 44, marginBottom: 32, textAlign: 'left', marginLeft: 32 }}>Activities</h1>
-          <div style={{ marginBottom: 32, display: 'flex', gap: 20, flexWrap: 'wrap', alignItems: 'center', background: 'rgba(255,255,255,0.13)', borderRadius: 22, padding: 28, boxShadow: '0 4px 32px #007cf022', color: '#232323', backdropFilter: 'blur(8px)', border: '1.5px solid #3333', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both' }}>
-            <label style={{ fontWeight: 700, color: '#232323' }}>
-              Category:
-              <select value={category} onChange={e => setCategory(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }}>
-                {categories.map(cat => <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>)}
-              </select>
-            </label>
-            <label style={{ fontWeight: 700, color: '#232323' }}>
-              Date:
-              <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }} />
-            </label>
-            <label style={{ fontWeight: 700, color: '#232323' }}>
-              Min Duration (min):
-              <input type="number" value={minDuration} onChange={e => setMinDuration(e.target.value)} style={{ width: 60, marginLeft: 8, color: '#232323', background: '#fff' }} />
-            </label>
-            <label style={{ fontWeight: 700, color: '#232323' }}>
-              Max Duration (min):
-              <input type="number" value={maxDuration} onChange={e => setMaxDuration(e.target.value)} style={{ width: 60, marginLeft: 8, color: '#232323', background: '#fff' }} />
-            </label>
-            <label style={{ fontWeight: 700, color: '#232323' }}>
-              Sort by:
-              <select value={sort} onChange={e => setSort(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }}>
-                <option value="">None</option>
-                <option value="popularity">Popularity</option>
-                <option value="date">Date</option>
-              </select>
-            </label>
+        {/* Responsive filter bar */}
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            gap: 16,
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: '0 auto',
+            maxWidth: 1200,
+            padding: '0 8px',
+          }}
+        >
+          <label style={{ fontWeight: 700, color: '#232323' }}>
+            Category:
+            <select value={category} onChange={e => setCategory(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }}>
+              {categories.map(cat => <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>)}
+            </select>
+          </label>
+          <label style={{ fontWeight: 700, color: '#232323' }}>
+            Date:
+            <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }} />
+          </label>
+          <label style={{ fontWeight: 700, color: '#232323' }}>
+            Min Duration (min):
+            <input type="number" value={minDuration} onChange={e => setMinDuration(e.target.value)} style={{ width: 60, marginLeft: 8, color: '#232323', background: '#fff' }} />
+          </label>
+          <label style={{ fontWeight: 700, color: '#232323' }}>
+            Max Duration (min):
+            <input type="number" value={maxDuration} onChange={e => setMaxDuration(e.target.value)} style={{ width: 60, marginLeft: 8, color: '#232323', background: '#fff' }} />
+          </label>
+          <label style={{ fontWeight: 700, color: '#232323' }}>
+            Sort by:
+            <select value={sort} onChange={e => setSort(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }}>
+              <option value="">None</option>
+              <option value="popularity">Popularity</option>
+              <option value="date">Date</option>
+            </select>
+          </label>
+        </div>
+        {recLoading ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#aaa', fontWeight: 600, fontSize: 20, margin: '32px 0' }}>
+            <ClipLoader color="#00dfd8" size={28} /> Loading recommendations...
           </div>
-          {recLoading ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#aaa', fontWeight: 600, fontSize: 20, margin: '32px 0' }}>
-              <ClipLoader color="#00dfd8" size={28} /> Loading recommendations...
+        ) : recommendations.length > 0 ? (
+          <div style={{ marginBottom: 36 }}>
+            <h2 className={styles.animatedHeadline} style={{ fontSize: 28, marginBottom: 18, letterSpacing: 0.5 }}>Recommended for You</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 18 }}>
+              {recommendations.map((rec, i) => (
+                <div key={i} style={{ background: 'rgba(255,255,255,0.18)', borderRadius: 16, boxShadow: '0 2px 12px #007cf022', padding: '16px 32px', fontSize: 20, color: '#007cf0', fontWeight: 700, letterSpacing: 0.5, border: '1.5px solid #00dfd8', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both', animationDelay: `${i * 0.1 + 0.2}s` }}>{rec}</div>
+              ))}
             </div>
-          ) : recommendations.length > 0 ? (
-            <div style={{ marginBottom: 36 }}>
-              <h2 className={styles.animatedHeadline} style={{ fontSize: 28, marginBottom: 18, letterSpacing: 0.5 }}>Recommended for You</h2>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 18 }}>
-                {recommendations.map((rec, i) => (
-                  <div key={i} style={{ background: 'rgba(255,255,255,0.18)', borderRadius: 16, boxShadow: '0 2px 12px #007cf022', padding: '16px 32px', fontSize: 20, color: '#007cf0', fontWeight: 700, letterSpacing: 0.5, border: '1.5px solid #00dfd8', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both', animationDelay: `${i * 0.1 + 0.2}s` }}>{rec}</div>
-                ))}
-              </div>
-            </div>
+          </div>
+        ) : null}
+        {/* Responsive activity cards grid */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 24,
+            margin: '32px auto',
+            maxWidth: 1200,
+            padding: '0 8px',
+          }}
+        >
+          {activities.length === 0 && !loading ? (
+            <div style={{ color: '#00dfd8', fontWeight: 700, fontSize: 22, marginTop: 32 }}>No activities found for your event.</div>
           ) : null}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, justifyContent: 'center', marginTop: 24 }}>
-            {activities.length === 0 && !loading ? (
-              <div style={{ color: '#00dfd8', fontWeight: 700, fontSize: 22, marginTop: 32 }}>No activities found for your event.</div>
-            ) : null}
-            {activities.map((activity, i) => (
-              <div key={activity._id} style={{ background: 'rgba(255,255,255,0.13)', borderRadius: 22, boxShadow: '0 4px 32px #007cf022', padding: 32, minWidth: 280, maxWidth: 340, margin: '0 0 24px 0', color: '#fff', border: '1.5px solid #3333', position: 'relative', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both', animationDelay: `${i * 0.08 + 0.2}s`, transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'pointer' }}
-                onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-6px) scale(1.03)'; e.currentTarget.style.boxShadow = '0 8px 32px #00dfd844'; }}
-                onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 32px #007cf022'; }}
-              >
-                {(activity.imageUrl || true) && (
-                  <Image
-                    src={activity.imageUrl || 'https://source.unsplash.com/featured/?event,activity'}
-                    alt={activity.title}
-                    width={340}
-                    height={160}
-                    style={{
-                      width: '100%',
-                      height: '160px',
-                      objectFit: 'cover',
-                      borderTopLeftRadius: '18px',
-                      borderTopRightRadius: '18px',
-                      marginBottom: 18,
-                      boxShadow: '0 2px 12px #007cf022'
-                    }}
-                  />
-                )}
-                <div style={{ fontWeight: 800, fontSize: 22, marginBottom: 8, color: '#00dfd8', letterSpacing: 0.5 }}>{activity.title}</div>
-                <div style={{ fontSize: 16, color: '#e0e0ff', marginBottom: 10 }}>{activity.category} &bull; {new Date(activity.date).toLocaleDateString()}</div>
-                <div style={{ fontSize: 15, color: '#fff', marginBottom: 16 }}>{activity.description}</div>
-                <div style={{ fontSize: 14, color: '#b2ebf2', marginBottom: 10 }}>Slots: {activity.slots} &nbsp; | &nbsp; Duration: {activity.duration || 'N/A'} min</div>
-                {typeof activity.popularity === 'number' && (
-                  <div style={{ fontSize: 14, color: '#ffd700', marginBottom: 10 }}>
-                    Popularity: {activity.popularity}
-                  </div>
-                )}
-                <button
-                  className="primary"
-                  style={{ width: '100%', fontWeight: 700, fontSize: 17, marginTop: 10, borderRadius: 14 }}
-                  onClick={() => {
-                    console.log('BOOK NOW CLICKED', activity);
-                    if (Number(activity.fee) > 0 || (activity.maxTeammates ?? 0) > 0) {
-                      openTeammateModal(activity);
-                    } else {
-                      handleBook(activity._id);
-                    }
+          {activities.map((activity, i) => (
+            <div key={activity._id} style={{ background: 'rgba(255,255,255,0.13)', borderRadius: 22, boxShadow: '0 4px 32px #007cf022', padding: 32, minWidth: 280, maxWidth: 340, margin: '0 0 24px 0', color: '#fff', border: '1.5px solid #3333', position: 'relative', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both', animationDelay: `${i * 0.08 + 0.2}s`, transition: 'transform 0.2s, box-shadow 0.2s', cursor: 'pointer' }}
+              onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-6px) scale(1.03)'; e.currentTarget.style.boxShadow = '0 8px 32px #00dfd844'; }}
+              onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 32px #007cf022'; }}
+            >
+              {(activity.imageUrl || true) && (
+                <Image
+                  src={activity.imageUrl || 'https://source.unsplash.com/featured/?event,activity'}
+                  alt={activity.title}
+                  width={340}
+                  height={160}
+                  style={{
+                    width: '100%',
+                    height: '160px',
+                    objectFit: 'cover',
+                    borderTopLeftRadius: '18px',
+                    borderTopRightRadius: '18px',
+                    marginBottom: 18,
+                    boxShadow: '0 2px 12px #007cf022'
                   }}
-                  disabled={bookingId === activity._id}
-                >
-                  {bookingId === activity._id ? 'Booking...' : 'Book Now'}
-                </button>
-                {bookingStatus[activity._id] && <div style={{ color: bookingStatus[activity._id].includes('success') ? '#00dfd8' : '#ff0080', fontWeight: 700, marginTop: 10 }}>{bookingStatus[activity._id]}</div>}
-              </div>
-            ))}
-          </div>
+                />
+              )}
+              <div style={{ fontWeight: 800, fontSize: 22, marginBottom: 8, color: '#00dfd8', letterSpacing: 0.5 }}>{activity.title}</div>
+              <div style={{ fontSize: 16, color: '#e0e0ff', marginBottom: 10 }}>{activity.category} &bull; {new Date(activity.date).toLocaleDateString()}</div>
+              <div style={{ fontSize: 15, color: '#fff', marginBottom: 16 }}>{activity.description}</div>
+              <div style={{ fontSize: 14, color: '#b2ebf2', marginBottom: 10 }}>Slots: {activity.slots} &nbsp; | &nbsp; Duration: {activity.duration || 'N/A'} min</div>
+              {typeof activity.popularity === 'number' && (
+                <div style={{ fontSize: 14, color: '#ffd700', marginBottom: 10 }}>
+                  Popularity: {activity.popularity}
+                </div>
+              )}
+              <button
+                className="primary"
+                style={{ width: '100%', fontWeight: 700, fontSize: 17, marginTop: 10, borderRadius: 14 }}
+                onClick={() => {
+                  console.log('BOOK NOW CLICKED', activity);
+                  if (Number(activity.fee) > 0 || (activity.maxTeammates ?? 0) > 0) {
+                    openTeammateModal(activity);
+                  } else {
+                    handleBook(activity._id);
+                  }
+                }}
+                disabled={bookingId === activity._id}
+              >
+                {bookingId === activity._id ? 'Booking...' : 'Book Now'}
+              </button>
+              {bookingStatus[activity._id] && <div style={{ color: bookingStatus[activity._id].includes('success') ? '#00dfd8' : '#ff0080', fontWeight: 700, marginTop: 10 }}>{bookingStatus[activity._id]}</div>}
+            </div>
+          ))}
         </div>
       </main>
       {teammateModal.activity && (

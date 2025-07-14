@@ -352,9 +352,9 @@ export default function AdminDashboard() {
       {/* <div className={styles.bgAnimated} /> */}
       <NavBar />
       <main style={{ minHeight: '100vh', background: 'none', padding: 0 }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 16px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: 'clamp(24px, 6vw, 40px) 8px' }}>
           {event && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 18 }}>
+            <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 18, marginBottom: 18 }}>
               {event.branding?.logoUrl && (
                 <Image
                   src={event.branding.logoUrl}
@@ -364,17 +364,17 @@ export default function AdminDashboard() {
                   style={{ borderRadius: 12, boxShadow: '0 2px 12px #007cf022' }}
                 />
               )}
-              <div>
-                <div style={{ color: event.branding?.primaryColor || '#00dfd8', fontWeight: 900, fontSize: 32, letterSpacing: 1 }}>{event.name}</div>
-                <div style={{ color: event.branding?.secondaryColor || '#ff0080', fontWeight: 700, fontSize: 18 }}>{event.slug}</div>
+              <div style={{ minWidth: 180 }}>
+                <div style={{ color: event.branding?.primaryColor || '#00dfd8', fontWeight: 900, fontSize: 'clamp(1.2rem, 5vw, 2rem)', letterSpacing: 1 }}>{event.name}</div>
+                <div style={{ color: event.branding?.secondaryColor || '#ff0080', fontWeight: 700, fontSize: 'clamp(1rem, 4vw, 1.2rem)' }}>{event.slug}</div>
                 {/* Share Registration Link */}
-                <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ marginTop: 10, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10 }}>
                   <span style={{ color: '#00dfd8', fontWeight: 700, fontSize: 15 }}>Share Registration Link:</span>
                   <input
                     type="text"
                     value={`${typeof window !== 'undefined' ? window.location.origin : ''}/signup?eventSlug=${event.slug}`}
                     readOnly
-                    style={{ width: 320, fontSize: 14, padding: '6px 10px', borderRadius: 8, border: '1px solid #00dfd8', background: '#181828', color: '#fff', fontWeight: 600 }}
+                    style={{ width: 220, fontSize: 14, padding: '6px 10px', borderRadius: 8, border: '1px solid #00dfd8', background: '#181828', color: '#fff', fontWeight: 600 }}
                   />
                   <button
                     onClick={() => {
@@ -387,7 +387,7 @@ export default function AdminDashboard() {
                   </button>
                 </div>
                 {/* QR Code Download */}
-                <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ marginTop: 10, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10 }}>
                   <span style={{ color: '#ff0080', fontWeight: 700, fontSize: 15 }}>QR Code for Registration:</span>
                   <button
                     onClick={async () => {

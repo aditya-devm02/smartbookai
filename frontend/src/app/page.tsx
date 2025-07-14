@@ -70,7 +70,7 @@ export default function Home() {
         {/* Hero Section */}
         <section style={{ width: '100%', padding: '80px 0 40px 0', textAlign: 'center', position: 'relative' }}>
           <h1 className="hero-headline" style={{
-            fontSize: 64,
+            fontSize: 'clamp(2.2rem, 7vw, 4rem)',
             fontWeight: 900,
             letterSpacing: 1.5,
             background: 'linear-gradient(90deg,#00dfd8,#ff0080 60%,#007cf0)',
@@ -82,28 +82,27 @@ export default function Home() {
           }}>
             SmartBookAI
           </h1>
-          <p style={{ fontSize: 26, color: '#fff', fontWeight: 600, maxWidth: 700, margin: '0 auto 32px', lineHeight: 1.5, textShadow: '0 2px 12px #007cf044' }}>
+          <p style={{ fontSize: 'clamp(1.1rem, 4vw, 1.7rem)', color: '#fff', fontWeight: 600, maxWidth: 700, margin: '0 auto 32px', lineHeight: 1.5, textShadow: '0 2px 12px #007cf044' }}>
             The <span style={{ color: '#00dfd8' }}>smartest</span> way to manage, discover, and book event activities.<br />
             <span style={{ color: '#ff0080' }}>Multi-tenant</span>, <span style={{ color: '#007cf0' }}>AI-powered</span>, and <span style={{ color: '#ffd700' }}>beautifully simple</span>.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 24, marginBottom: 36 }}>
-            <a href="/admin-signup" className="primary" style={{ fontSize: 20, fontWeight: 800, padding: '16px 38px', borderRadius: 16, background: 'linear-gradient(90deg,#00dfd8,#007cf0)', color: '#181824', boxShadow: '0 2px 16px #00dfd822', textDecoration: 'none', letterSpacing: 1 }}>Create Event</a>
-            <a href="/signup" className="secondary" style={{ fontSize: 20, fontWeight: 800, padding: '16px 38px', borderRadius: 16, background: 'linear-gradient(90deg,#ff0080,#7928ca)', color: '#fff', boxShadow: '0 2px 16px #ff008022', textDecoration: 'none', letterSpacing: 1 }}>Join Event</a>
+          <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 16, marginBottom: 36 }}>
+            <a href="/admin-signup" className="primary" style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)', fontWeight: 800, padding: '14px 28px', borderRadius: 16, background: 'linear-gradient(90deg,#00dfd8,#007cf0)', color: '#181824', boxShadow: '0 2px 16px #00dfd822', textDecoration: 'none', letterSpacing: 1, marginBottom: 8 }}>Create Event</a>
+            <a href="/signup" className="secondary" style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)', fontWeight: 800, padding: '14px 28px', borderRadius: 16, background: 'linear-gradient(90deg,#ff0080,#7928ca)', color: '#fff', boxShadow: '0 2px 16px #ff008022', textDecoration: 'none', letterSpacing: 1, marginBottom: 8 }}>Join Event</a>
           </div>
           {/* Animated Feature Icons Row */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 40, marginTop: 24, flexWrap: 'wrap' }}>
-            <div className="feature-icon" style={{ fontSize: 38, color: '#00dfd8', background: '#23234a', borderRadius: 16, padding: 18, boxShadow: '0 2px 12px #00dfd822', transition: 'transform 0.3s' }}>🤖</div>
-            <div className="feature-icon" style={{ fontSize: 38, color: '#ff0080', background: '#23234a', borderRadius: 16, padding: 18, boxShadow: '0 2px 12px #ff008022', transition: 'transform 0.3s' }}>🔒</div>
-            <div className="feature-icon" style={{ fontSize: 38, color: '#ffd700', background: '#23234a', borderRadius: 16, padding: 18, boxShadow: '0 2px 12px #ffd70022', transition: 'transform 0.3s' }}>⚡</div>
-            <div className="feature-icon" style={{ fontSize: 38, color: '#007cf0', background: '#23234a', borderRadius: 16, padding: 18, boxShadow: '0 2px 12px #007cf022', transition: 'transform 0.3s' }}>📱</div>
-            <div className="feature-icon" style={{ fontSize: 38, color: '#00dfd8', background: '#23234a', borderRadius: 16, padding: 18, boxShadow: '0 2px 12px #00dfd822', transition: 'transform 0.3s' }}>💡</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 18, marginTop: 24 }}>
+            <div className="feature-icon" style={{ fontSize: 32, color: '#00dfd8', background: '#23234a', borderRadius: 16, padding: 14, boxShadow: '0 2px 12px #00dfd822', transition: 'transform 0.3s', marginBottom: 8 }}>🤖</div>
+            <div className="feature-icon" style={{ fontSize: 32, color: '#ff0080', background: '#23234a', borderRadius: 16, padding: 14, boxShadow: '0 2px 12px #ff008022', transition: 'transform 0.3s', marginBottom: 8 }}>🔒</div>
+            <div className="feature-icon" style={{ fontSize: 32, color: '#ffd700', background: '#23234a', borderRadius: 16, padding: 14, boxShadow: '0 2px 12px #ffd70022', transition: 'transform 0.3s', marginBottom: 8 }}>⚡</div>
+            <div className="feature-icon" style={{ fontSize: 32, color: '#007cf0', background: '#23234a', borderRadius: 16, padding: 14, boxShadow: '0 2px 12px #007cf022', transition: 'transform 0.3s', marginBottom: 8 }}>📱</div>
+            <div className="feature-icon" style={{ fontSize: 32, color: '#00dfd8', background: '#23234a', borderRadius: 16, padding: 14, boxShadow: '0 2px 12px #00dfd822', transition: 'transform 0.3s', marginBottom: 8 }}>💡</div>
           </div>
         </section>
-
         {/* Features Grid */}
-        <section style={{ maxWidth: 1400, margin: '0 auto', padding: '40px 0 0 0' }}>
-          <h2 style={{ color: '#fff', fontSize: 36, fontWeight: 900, marginBottom: 32, textAlign: 'center', letterSpacing: 1 }}>Features That Set Us Apart</h2>
-          <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: 32 }}>
+        <section style={{ width: '100%', maxWidth: 1400, margin: '0 auto', padding: '40px 0 0 0' }}>
+          <h2 style={{ color: '#fff', fontSize: 'clamp(1.5rem, 5vw, 2.2rem)', fontWeight: 900, marginBottom: 32, textAlign: 'center', letterSpacing: 1 }}>Features That Set Us Apart</h2>
+          <div className="features-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
             <div className="feature-card" style={{ background: '#23234a', borderRadius: 18, padding: 32, boxShadow: '0 2px 16px #00dfd822', border: '2px solid #00dfd8', transition: 'transform 0.3s' }}>
               <div style={{ fontSize: 32, marginBottom: 16 }}>🤖</div>
               <h3 style={{ color: '#00dfd8', fontSize: 22, fontWeight: 800, marginBottom: 10 }}>AI-Powered Recommendations</h3>
@@ -146,13 +145,12 @@ export default function Home() {
             </div>
           </div>
         </section>
-
         {/* How It Works Timeline */}
-        <section style={{ maxWidth: 1100, margin: '80px auto 0', padding: '0 20px' }}>
-          <h2 style={{ color: '#fff', fontSize: 34, fontWeight: 900, marginBottom: 36, textAlign: 'center', letterSpacing: 1 }}>How It Works</h2>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 40, justifyContent: 'center' }}>
+        <section style={{ width: '100%', maxWidth: 1100, margin: '80px auto 0', padding: '0 10px' }}>
+          <h2 style={{ color: '#fff', fontSize: 'clamp(1.3rem, 4vw, 2.1rem)', fontWeight: 900, marginBottom: 36, textAlign: 'center', letterSpacing: 1 }}>How It Works</h2>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 24, justifyContent: 'center' }}>
             {/* Organizer Timeline */}
-            <div style={{ flex: 1, minWidth: 320, maxWidth: 480, background: '#181824', borderRadius: 18, padding: 32, boxShadow: '0 2px 16px #00dfd822', border: '2px solid #00dfd8', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ flex: 1, minWidth: 240, maxWidth: 480, background: '#181824', borderRadius: 18, padding: 20, boxShadow: '0 2px 16px #00dfd822', border: '2px solid #00dfd8', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 16 }}>
               <h3 style={{ color: '#00dfd8', fontSize: 22, fontWeight: 800, marginBottom: 18 }}>For Organizers</h3>
               <ol style={{ color: '#e0e0e0', fontSize: 16, lineHeight: 2, paddingLeft: 18, textAlign: 'left', width: '100%', maxWidth: 400 }}>
                 <li><b>Create your event</b> with custom branding and details.</li>
@@ -164,7 +162,7 @@ export default function Home() {
               <a href="/admin-signup" className="primary" style={{ marginTop: 28, fontSize: 18, fontWeight: 800, padding: '14px 32px', borderRadius: 14, background: 'linear-gradient(90deg,#00dfd8,#007cf0)', color: '#181824', boxShadow: '0 2px 16px #00dfd822', textDecoration: 'none', letterSpacing: 1 }}>Create Event</a>
             </div>
             {/* User Timeline */}
-            <div style={{ flex: 1, minWidth: 320, maxWidth: 480, background: '#181824', borderRadius: 18, padding: 32, boxShadow: '0 2px 16px #ff008022', border: '2px solid #ff0080', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ flex: 1, minWidth: 240, maxWidth: 480, background: '#181824', borderRadius: 18, padding: 20, boxShadow: '0 2px 16px #ff008022', border: '2px solid #ff0080', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 16 }}>
               <h3 style={{ color: '#ff0080', fontSize: 22, fontWeight: 800, marginBottom: 18 }}>For Participants</h3>
               <ol style={{ color: '#e0e0e0', fontSize: 16, lineHeight: 2, paddingLeft: 18, textAlign: 'left', width: '100%', maxWidth: 400 }}>
                 <li><b>Register for your event</b> using the unique link or QR code.</li>
