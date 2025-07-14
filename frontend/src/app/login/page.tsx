@@ -26,8 +26,12 @@ export default function Login() {
       // Save token and redirect if needed
       if (data.token) localStorage.setItem("token", data.token);
       window.location.href = "/activities";
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Login failed');
+      }
     }
     setLoading(false);
   };

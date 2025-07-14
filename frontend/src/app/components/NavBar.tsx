@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import styles from "../page.module.css";
+import Link from "next/link";
 
 export default function NavBar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const [event, setEvent] = useState<{ name: string; branding?: { logoUrl?: string } } | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -22,7 +21,10 @@ export default function NavBar() {
         if (payload.eventId) {
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${payload.eventId}`)
             .then(res => res.json())
-            .then(data => setEvent(data));
+            .then(data => {
+              // The original code had setEvent(data) here, but event is not used in JSX.
+              // Keeping the fetch logic as it might be used elsewhere or for future use.
+            });
         }
       } catch {
         setIsAdmin(false);
@@ -65,7 +67,7 @@ export default function NavBar() {
         }}
       >
         {/* Logo */}
-        <a
+        <Link
           href="/"
           style={{
             display: "flex",
@@ -92,7 +94,7 @@ export default function NavBar() {
             style={{ height: 40, width: "auto", marginRight: 14, borderRadius: 8, background: "rgba(255,255,255,0.04)" }}
           /> */}
           <span style={{ fontWeight: 900, fontSize: 32 }}>SmartBookAI</span>
-        </a>
+        </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 18, paddingRight: 32 }}>
           {/* Create Event Button - Always visible */}
           <button
@@ -126,7 +128,7 @@ export default function NavBar() {
           </button>
           
           {/* Help Link - Always visible */}
-          <a
+          <Link
             href="/help"
             style={{
               color: "#fff",
@@ -146,24 +148,24 @@ export default function NavBar() {
           >
             <span style={{ fontSize: 16 }}>❓</span>
             Help
-          </a>
+          </Link>
           
           {/* Show login/signup buttons during SSR */}
           <>
-            <a
+            <Link
               href="/login"
               className="primary"
               style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none' }}
             >
               Login
-            </a>
-            <a
+            </Link>
+            <Link
               href="/signup"
               className="secondary"
               style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none' }}
             >
               Sign Up
-            </a>
+            </Link>
           </>
         </div>
       </nav>
@@ -191,7 +193,7 @@ export default function NavBar() {
       }}
     >
       {/* Logo */}
-      <a
+      <Link
         href="/"
         style={{
           display: "flex",
@@ -213,7 +215,7 @@ export default function NavBar() {
       >
         {/* Removed event logo image here */}
         <span style={{ fontWeight: 900, fontSize: 32 }}>SmartBookAI</span>
-      </a>
+      </Link>
       <div style={{ display: "flex", alignItems: "center", gap: 18, paddingRight: 32 }}>
         {/* Create Event Button - Always visible */}
         <button
@@ -247,7 +249,7 @@ export default function NavBar() {
         </button>
         
         {/* Help Link - Always visible */}
-        <a
+        <Link
           href="/help"
           style={{
             color: "#fff",
@@ -267,11 +269,11 @@ export default function NavBar() {
         >
           <span style={{ fontSize: 16 }}>❓</span>
           Help
-        </a>
+        </Link>
         
         {loggedIn && (
           <>
-            <a
+            <Link
               href="/activities"
               style={{
                 color: "#fff",
@@ -288,8 +290,8 @@ export default function NavBar() {
               onMouseOut={e => (e.currentTarget.style.background = "rgba(0,124,240,0.08)")}
             >
               Activities
-            </a>
-            <a
+            </Link>
+            <Link
               href="/profile"
               style={{
                 color: "#fff",
@@ -306,9 +308,9 @@ export default function NavBar() {
               onMouseOut={e => (e.currentTarget.style.background = "rgba(121,40,202,0.08)")}
             >
               Profile
-            </a>
+            </Link>
             {isAdmin && (
-              <a
+              <Link
                 href="/admin"
                 style={{
                   color: "#fff",
@@ -327,7 +329,7 @@ export default function NavBar() {
                 onMouseOut={e => (e.currentTarget.style.background = "linear-gradient(90deg,#ff0080,#7928ca)")}
               >
                 Admin
-              </a>
+              </Link>
             )}
             <button
               onClick={handleLogout}
@@ -341,20 +343,20 @@ export default function NavBar() {
         
         {!loggedIn && (
           <>
-            <a
+            <Link
               href="/login"
               className="primary"
               style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none' }}
             >
               Login
-            </a>
-            <a
+            </Link>
+            <Link
               href="/signup"
               className="secondary"
               style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none' }}
             >
               Sign Up
-            </a>
+            </Link>
           </>
         )}
       </div>

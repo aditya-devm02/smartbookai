@@ -45,7 +45,6 @@ export default function Profile() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [recommendations, setRecommendations] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ username: "", email: "" });
   const [error, setError] = useState("");
   const [eventId, setEventId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
@@ -63,7 +62,6 @@ export default function Profile() {
       const payload = JSON.parse(atob(token.split(".")[1]));
       console.log("[Profile] User after decode:", payload);
       setUser({ id: payload.userId, username: payload.username, email: payload.email });
-      setForm({ username: payload.username, email: payload.email });
       setEventId(payload.eventId);
     } catch {
       setUser(null);
@@ -92,8 +90,12 @@ export default function Profile() {
       const data = await res.json();
       console.log("Bookings API response:", data);
       setBookings(data.bookings || []);
-    } catch (err) {
-      setError("Failed to load bookings.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError("Failed to load bookings.");
+      } else {
+        setError("Failed to load bookings.");
+      }
     }
   };
 
@@ -124,33 +126,6 @@ export default function Profile() {
     console.log("[Profile] recommendations:", recommendations);
     console.log("[Profile] error:", error);
   }, [user, bookings, recommendations, error]);
-
-  const handleCancel = async (bookingId: string) => {
-    setError("");
-    const token = localStorage.getItem("token");
-    if (!token) {
-      setError("Please log in to cancel a booking.");
-      return;
-    }
-    try {
-      const res = await fetch(`${API_URL}/api/bookings/${bookingId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      let data;
-      const contentType = res.headers.get("content-type");
-      if (contentType && contentType.includes("application/json")) {
-        data = await res.json();
-      } else {
-        const text = await res.text();
-        throw new Error(text || "Unexpected server error");
-      }
-      if (!res.ok) throw new Error(data.message || "Cancel failed");
-      await fetchBookings(); // Re-fetch bookings from server after delete
-    } catch (err: any) {
-      setError(err.message);
-    }
-  };
 
   if (token === null) {
     return (
