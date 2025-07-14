@@ -12,6 +12,10 @@ type Activity = {
   slots: number;
   duration?: number;
   imageUrl?: string;
+  maxBookingsPerUser?: number;
+  maxTeammates?: number;
+  fee?: number;
+  upiId?: string;
 };
 
 type Booking = {
