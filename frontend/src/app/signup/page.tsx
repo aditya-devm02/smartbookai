@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import NavBar from "../components/NavBar";
 import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 import Image from "next/image";
 
-export default function Signup() {
+function SignupInner() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -85,5 +85,13 @@ export default function Signup() {
         </div>
       </main>
     </>
+  );
+}
+
+export default function Signup() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SignupInner />
+    </Suspense>
   );
 } 
