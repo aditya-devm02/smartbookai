@@ -1,8 +1,9 @@
 "use client";
 import React, { useState } from 'react';
 import NavBar from "../components/NavBar";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
+import Image from "next/image";
 
 export default function Signup() {
   const [username, setUsername] = useState('');
@@ -10,7 +11,7 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [event, setEvent] = useState<any>(null);
+  const [event, setEvent] = useState<{ name?: string; branding?: { logoUrl?: string } } | null>(null);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
   const eventSlug = searchParams?.get('eventSlug');
@@ -42,7 +43,7 @@ export default function Signup() {
     setError('');
     setSuccess('');
     try {
-      const body: any = { username, email, password };
+      const body: { username: string; email: string; password: string; eventSlug?: string } = { username, email, password };
       if (eventSlug) body.eventSlug = eventSlug;
       const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
         method: 'POST',
@@ -66,7 +67,7 @@ export default function Signup() {
           {loading ? <p>Loading event details...</p> : event && (
             <div style={{ marginBottom: 16, textAlign: 'center' }}>
               <div style={{ fontWeight: 700, fontSize: 20 }}>{event.name}</div>
-              {event.branding?.logoUrl && <img src={event.branding.logoUrl} alt="Event Logo" style={{ maxWidth: 120, margin: '12px auto' }} />}
+              {event.branding?.logoUrl && <Image src={event.branding.logoUrl} alt="Event Logo" width={120} height={60} style={{ maxWidth: 120, margin: '12px auto' }} />}
             </div>
           )}
           <form onSubmit={handleSubmit}>

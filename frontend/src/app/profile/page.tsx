@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
-import styles from "../page.module.css";
+import Image from "next/image";
 
 type Booking = {
   _id: string;
@@ -25,19 +25,31 @@ type User = {
   email: string;
 };
 
+// Define Event type
+interface EventBranding {
+  logoUrl?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+}
+interface EventType {
+  name?: string;
+  slug?: string;
+  category?: string;
+  date?: string;
+  description?: string;
+  branding?: EventBranding;
+}
+
 export default function Profile() {
   const [user, setUser] = useState<User | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [recommendations, setRecommendations] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editMode, setEditMode] = useState(false);
   const [form, setForm] = useState({ username: "", email: "" });
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [canceling, setCanceling] = useState<string | null>(null);
-  const [event, setEvent] = useState<any>(null);
   const [eventId, setEventId] = useState<string | null>(null);
   const [token, setToken] = useState<string | null>(null);
+  const [event, setEvent] = useState<EventType | null>(null);
 
   console.log("Profile page rendered");
   // Get user from token and eventId
@@ -113,31 +125,15 @@ export default function Profile() {
     console.log("[Profile] error:", error);
   }, [user, bookings, recommendations, error]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleUpdate = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
-    // TODO: Implement update profile API
-    setSuccess("Profile updated (demo only)");
-    setEditMode(false);
-  };
-
   const handleCancel = async (bookingId: string) => {
-    setCanceling(bookingId);
     setError("");
-    setSuccess("");
     const token = localStorage.getItem("token");
     if (!token) {
       setError("Please log in to cancel a booking.");
-      setCanceling(null);
       return;
     }
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/bookings/${bookingId}`, {
+      const res = await fetch(`${API_URL}/api/bookings/${bookingId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -151,11 +147,9 @@ export default function Profile() {
       }
       if (!res.ok) throw new Error(data.message || "Cancel failed");
       await fetchBookings(); // Re-fetch bookings from server after delete
-      setSuccess("Booking cancelled.");
     } catch (err: any) {
       setError(err.message);
     }
-    setCanceling(null);
   };
 
   if (token === null) {
@@ -177,7 +171,7 @@ export default function Profile() {
         <NavBar />
         <main style={{ minHeight: '100vh', background: 'none', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div className="card" style={{ maxWidth: 420, width: '100%', margin: 'auto', textAlign: 'center', padding: 48 }}>
-            <h2 className={styles.animatedHeadline} style={{ fontSize: 32, marginBottom: 18 }}>Profile</h2>
+            <h2 style={{ fontSize: 32, marginBottom: 18 }}>Profile</h2>
             <div style={{ color: '#ff0080', fontWeight: 700, fontSize: 20 }}>Please log in to view your profile.</div>
           </div>
         </main>
@@ -207,7 +201,7 @@ export default function Profile() {
           {event && (
             <div style={{ display: 'flex', alignItems: 'center', marginLeft: 8, marginBottom: 36, gap: 32 }}>
               {event.branding?.logoUrl && (
-                <img src={event.branding.logoUrl} alt="Event Logo" style={{ width: 90, height: 90, objectFit: 'contain', borderRadius: 18, background: '#fff', marginRight: 0, boxShadow: '0 4px 24px #007cf022' }} />
+                <Image src={event.branding.logoUrl} alt="Event Logo" width={90} height={90} style={{ objectFit: 'contain', borderRadius: 18, background: '#fff', marginRight: 0, boxShadow: '0 4px 24px #007cf022' }} />
               )}
               <div>
                 <div style={{ color: event.branding?.primaryColor || '#00dfd8', fontFamily: 'Inter, Segoe UI, Arial, sans-serif', fontWeight: '800', fontSize: '2.1rem', letterSpacing: '0.5px', marginBottom: 8, textShadow: '0 2px 8px #0002', lineHeight: 1.1 }}>{event.name}</div>
@@ -229,7 +223,7 @@ export default function Profile() {
               <div style={{ color: '#00dfd8', fontWeight: 700, fontSize: 22, fontFamily: 'Inter, Segoe UI, Arial, sans-serif', marginTop: 6 }}>Event: {event?.name || 'N/A'}</div>
             </div>
           </div>
-          <h2 className={styles.animatedHeadline} style={{ fontSize: 28, marginBottom: 24, marginLeft: 4, textAlign: 'left', color: '#00dfd8', letterSpacing: 1 }}>My Bookings</h2>
+          <h2 style={{ fontSize: 28, marginBottom: 24, marginLeft: 4, textAlign: 'left', color: '#00dfd8', letterSpacing: 1 }}>My Bookings</h2>
           {error && (
             <div style={{ color: '#ff0080', fontWeight: 700, fontSize: 20, margin: '24px 0' }}>{error}</div>
           )}
@@ -246,7 +240,7 @@ export default function Profile() {
                   {/* Activity logo or fallback */}
                   <div style={{ width: 90, height: 90, borderRadius: 18, background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: 0, boxShadow: '0 2px 12px #007cf022' }}>
                     {booking.activity?.imageUrl ? (
-                      <img src={booking.activity.imageUrl} alt={booking.activity.title} style={{ width: 80, height: 80, objectFit: 'cover', borderRadius: 14 }} />
+                      <Image src={booking.activity.imageUrl} alt={booking.activity.title} width={80} height={80} style={{ objectFit: 'cover', borderRadius: 14 }} />
                     ) : (
                       <span style={{ color: '#00dfd8', fontWeight: 900, fontSize: 38 }}>{booking.activity?.title?.charAt(0).toUpperCase() || '?'}</span>
                     )}
@@ -280,7 +274,7 @@ export default function Profile() {
             </div>
           ) : recommendations.length > 0 ? (
             <div style={{ marginTop: 48 }}>
-              <h2 className={styles.animatedHeadline} style={{ fontSize: 28, marginBottom: 24, marginLeft: 4, textAlign: 'left', color: '#ff0080', letterSpacing: 1 }}>Recommended for <span style={{ color: '#00dfd8' }}>You</span></h2>
+              <h2 style={{ fontSize: 28, marginBottom: 24, marginLeft: 4, textAlign: 'left', color: '#ff0080', letterSpacing: 1 }}>Recommended for <span style={{ color: '#00dfd8' }}>You</span></h2>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 18, justifyContent: 'flex-start' }}>
                 {recommendations.map((rec, i) => (
                   <div key={i} style={{ 
@@ -319,7 +313,7 @@ export default function Profile() {
             </div>
           ) : (
             <div style={{ marginTop: 48 }}>
-              <h2 className={styles.animatedHeadline} style={{ fontSize: 28, marginBottom: 24, marginLeft: 4, textAlign: 'left', color: '#ff0080', letterSpacing: 1 }}>Recommended for <span style={{ color: '#00dfd8' }}>You</span></h2>
+              <h2 style={{ fontSize: 28, marginBottom: 24, marginLeft: 4, textAlign: 'left', color: '#ff0080', letterSpacing: 1 }}>Recommended for <span style={{ color: '#00dfd8' }}>You</span></h2>
               <div style={{ color: '#007cf0', fontWeight: 600, fontSize: 18, fontStyle: 'italic' }}>
                 Start booking activities to get personalized recommendations!
               </div>
