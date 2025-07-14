@@ -100,7 +100,7 @@ export default function Profile() {
       }
     };
     fetchBookings();
-  }, [user]);
+  }, [user, API_URL]);
 
   // Fetch recommendations
   useEffect(() => {

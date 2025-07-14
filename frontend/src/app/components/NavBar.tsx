@@ -24,7 +24,6 @@ const navStyles: React.CSSProperties = {
 
 export default function NavBar() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,7 +36,6 @@ export default function NavBar() {
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
-        setIsAdmin(payload.role === "admin");
         // Fetch event info for logo
         if (payload.eventId) {
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${payload.eventId}`)
@@ -48,10 +46,10 @@ export default function NavBar() {
             });
         }
       } catch {
-        setIsAdmin(false);
+        // setIsAdmin(false); // This line was removed as per the edit hint
       }
     } else {
-      setIsAdmin(false);
+      // setIsAdmin(false); // This line was removed as per the edit hint
     }
 
     // Responsive: track window width
