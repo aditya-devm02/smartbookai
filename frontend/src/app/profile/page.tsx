@@ -79,29 +79,28 @@ export default function Profile() {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5050";
   // Fetch bookings
-  const fetchBookings = async () => {
-    console.log("Fetching bookings from:", `${API_URL}/api/bookings/my`);
-    const token = localStorage.getItem("token");
-    if (!token || !user) return;
-    try {
-      const res = await fetch(`${API_URL}/api/bookings/my`, {
-        headers: { Authorization: `Bearer ${token}` }, // Add Authorization header
-      });
-      const data = await res.json();
-      console.log("Bookings API response:", data);
-      setBookings(data.bookings || []);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError("Failed to load bookings.");
-      } else {
-        setError("Failed to load bookings.");
-      }
-    }
-  };
-
   useEffect(() => {
+    const fetchBookings = async () => {
+      console.log("Fetching bookings from:", `${API_URL}/api/bookings/my`);
+      const token = localStorage.getItem("token");
+      if (!token || !user) return;
+      try {
+        const res = await fetch(`${API_URL}/api/bookings/my`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await res.json();
+        console.log("Bookings API response:", data);
+        setBookings(data.bookings || []);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError("Failed to load bookings.");
+        } else {
+          setError("Failed to load bookings.");
+        }
+      }
+    };
     fetchBookings();
-  }, [fetchBookings]);
+  }, [user]);
 
   // Fetch recommendations
   useEffect(() => {

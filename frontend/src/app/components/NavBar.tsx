@@ -21,7 +21,7 @@ export default function NavBar() {
         if (payload.eventId) {
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${payload.eventId}`)
             .then(res => res.json())
-            .then(data => {
+            .then(() => {
               // The original code had setEvent(data) here, but event is not used in JSX.
               // Keeping the fetch logic as it might be used elsewhere or for future use.
             });

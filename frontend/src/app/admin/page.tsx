@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 type Activity = {

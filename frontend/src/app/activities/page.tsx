@@ -4,6 +4,7 @@ import NavBar from "../components/NavBar";
 import toast, { Toaster } from "react-hot-toast";
 import { ClipLoader } from "react-spinners";
 import styles from "../page.module.css";
+import Image from "next/image";
 
 type Activity = {
   _id: string;
@@ -199,10 +200,12 @@ export default function Activities() {
             margin: '0 auto', marginTop: 40, marginBottom: 48, gap: 36,
           }}>
             {event.branding?.logoUrl && (
-              <img
+              <Image
                 src={event.branding.logoUrl}
                 alt={event.name}
-                style={{ width: 200, height: 200, objectFit: 'contain', borderRadius: 32, background: 'rgba(255,255,255,0.12)', marginBottom: 0 }}
+                width={200}
+                height={200}
+                style={{ borderRadius: 32, background: 'rgba(255,255,255,0.12)', marginBottom: 0 }}
               />
             )}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', gap: 8 }}>
@@ -268,9 +271,11 @@ export default function Activities() {
                 onMouseOut={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 32px #007cf022'; }}
               >
                 {(activity.imageUrl || true) && (
-                  <img
+                  <Image
                     src={activity.imageUrl || 'https://source.unsplash.com/featured/?event,activity'}
                     alt={activity.title}
+                    width={340}
+                    height={160}
                     style={{
                       width: '100%',
                       height: '160px',
@@ -419,7 +424,13 @@ export default function Activities() {
                 )}
                 {/* QR code if available */}
                 {teammateModal.activity.upiId && (
-                  <img src={`https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=${encodeURIComponent(teammateModal.activity.upiId)}&pn=SmartBookAI&am=${teammateModal.activity.fee}`} alt="UPI QR" style={{ width: 120, height: 120, marginBottom: 8, borderRadius: 8, background: '#fff' }} />
+                  <Image
+                    src={`https://api.qrserver.com/v1/create-qr-code/?data=upi://pay?pa=${encodeURIComponent(teammateModal.activity.upiId)}&pn=SmartBookAI&am=${teammateModal.activity.fee}`}
+                    alt="UPI QR"
+                    width={120}
+                    height={120}
+                    style={{ borderRadius: 8, background: '#fff' }}
+                  />
                 )}
                 <div style={{ marginBottom: 8 }}>
                   <label style={{ fontWeight: 600, color: '#007cf0', fontSize: 15 }}>Upload Payment Screenshot:</label>
