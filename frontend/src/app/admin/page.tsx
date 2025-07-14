@@ -11,6 +11,7 @@ type Activity = {
   date: string;
   slots: number;
   duration?: number;
+  imageUrl?: string;
 };
 
 type Booking = {
