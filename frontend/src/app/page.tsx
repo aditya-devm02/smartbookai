@@ -291,14 +291,7 @@ function TestimonialCarousel() {
   return (
     <section style={{ width: '100%', display: 'flex', justifyContent: 'center', margin: '64px 0 32px 0', position: 'relative', zIndex: 3 }}>
       <div style={{ background: 'rgba(24,24,36,0.92)', borderRadius: 24, boxShadow: '0 4px 32px #00dfd822', padding: '48px 32px', maxWidth: 600, minWidth: 320, textAlign: 'center', position: 'relative', border: '2px solid #00dfd8', transition: 'box-shadow 0.4s' }}>
-        <Image
-          src={testimonials[index].avatar}
-          alt={testimonials[index].name}
-          width={64}
-          height={64}
-          className="rounded-full"
-          style={{ border: '3px solid #00dfd8', boxShadow: '0 2px 12px #00dfd822' }}
-        />
+        {/* Removed avatar image */}
         <p style={{ color: '#fff', fontSize: 20, fontStyle: 'italic', marginBottom: 18, minHeight: 60, transition: 'opacity 0.5s' }}>
           “{testimonials[index].text}”
         </p>
