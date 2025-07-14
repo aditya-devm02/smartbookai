@@ -60,6 +60,37 @@ router.post('/register-admin-event', async (req, res) => {
   }
 });
 
+// Admin registration route
+router.post('/admin-register', async (req, res) => {
+  try {
+    const { username, email, password, eventName, eventSlug, branding } = req.body;
+    if (!username || !email || !password || !eventName || !eventSlug) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
+    // Check if user exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists.' });
+    }
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    // Create new admin user
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      role: 'admin',
+      eventName,
+      eventSlug,
+      branding
+    });
+    await newUser.save();
+    res.status(201).json({ message: 'Admin signup successful! Please login.' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
 // Login
 router.post('/login', async (req, res) => {
   try {
