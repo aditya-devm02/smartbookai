@@ -40,8 +40,12 @@ export default function AdminSignup() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Admin signup failed");
       setSuccess("Admin signup successful! Please login.");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Admin signup failed');
+      }
     }
     setLoading(false);
   };

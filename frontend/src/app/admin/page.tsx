@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import NavBar from "../components/NavBar";
 import { useRouter } from "next/navigation";
-import styles from "../page.module.css";
+import Image from "next/image";
 
 type Activity = {
   _id: string;
@@ -25,7 +25,6 @@ type Booking = {
 export default function AdminDashboard() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
-  const [loading, setLoading] = useState(true);
   const [form, setForm] = useState({
     title: "",
     description: "",
@@ -57,7 +56,6 @@ export default function AdminDashboard() {
   const [success, setSuccess] = useState("");
   const [event, setEvent] = useState<any>(null);
   const [eventId, setEventId] = useState<string | null>(null);
-  const router = useRouter();
   const [bookingsModal, setBookingsModal] = useState<{ activityId: string; title: string } | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [bookingsLoading, setBookingsLoading] = useState(false);
@@ -71,7 +69,10 @@ export default function AdminDashboard() {
       const payload = JSON.parse(atob(token.split(".")[1]));
       setIsAdmin(payload.role === "admin");
       setEventId(payload.eventId);
-    } catch {
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error parsing token payload:", err.message);
+      }
       setIsAdmin(false);
       setEventId(null);
     }
@@ -82,18 +83,36 @@ export default function AdminDashboard() {
     if (!eventId) return;
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${eventId}`)
       .then(res => res.json())
-      .then(data => setEvent(data));
+      .then(data => setEvent(data))
+      .catch((err: unknown) => {
+        if (err instanceof Error) {
+          console.error("Error fetching event details:", err.message);
+        }
+        setEvent(null);
+      });
   }, [eventId]);
 
   // Fetch activities for this event
   const fetchActivities = () => {
     if (!eventId) return;
-    setLoading(true);
+    setError("");
+    setSuccess("");
+    setBookings([]); // Clear previous bookings
+    setBookingsLoading(true);
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/activities?eventId=${eventId}`)
       .then((res) => res.json())
       .then((data) => {
         setActivities(data);
-        setLoading(false);
+      })
+      .catch((err: unknown) => {
+        if (err instanceof Error) {
+          console.error("Error fetching activities:", err.message);
+        }
+        setActivities([]);
+        setError("Failed to fetch activities.");
+      })
+      .finally(() => {
+        setBookingsLoading(false);
       });
   };
   useEffect(() => {
@@ -126,11 +145,17 @@ export default function AdminDashboard() {
         },
         body: JSON.stringify({ ...form, duration: form.duration ? Number(form.duration) : undefined, slots: form.slots ? Number(form.slots) : undefined, eventId }),
       });
-      if (!res.ok) throw new Error((await res.json()).message || "Failed to add activity");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to add activity");
+      }
       setSuccess("Activity added!");
       setForm({ title: "", description: "", category: "", date: "", duration: "", slots: "", imageUrl: "", maxBookingsPerUser: 1, maxTeammates: 0, fee: 0, upiId: "" });
-    } catch (err: any) {
-      setError(err.message);
+      fetchActivities(); // Refresh activities after adding
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
     }
   };
 
@@ -164,12 +189,17 @@ export default function AdminDashboard() {
         },
         body: JSON.stringify({ ...editForm, duration: editForm.duration ? Number(editForm.duration) : undefined, slots: editForm.slots ? Number(editForm.slots) : undefined }),
       });
-      if (!res.ok) throw new Error((await res.json()).message || "Failed to update activity");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to update activity");
+      }
       setSuccess("Activity updated!");
       setEditId(null);
       fetchActivities();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
     }
   };
 
@@ -186,11 +216,16 @@ export default function AdminDashboard() {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (!res.ok) throw new Error((await res.json()).message || "Failed to delete activity");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to delete activity");
+      }
       setSuccess("Activity deleted!");
       fetchActivities();
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      }
     }
   };
 
@@ -219,10 +254,12 @@ export default function AdminDashboard() {
         setBookings(Array.isArray(data) ? data : []);
         setError("");
       }
-    } catch (err: any) {
-      console.error('Error fetching bookings:', err);
-      setBookings([]);
-      setError(err.message || 'Failed to fetch bookings');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Error fetching bookings:', err);
+        setBookings([]);
+        setError(err.message || 'Failed to fetch bookings');
+      }
     } finally {
       setBookingsLoading(false);
     }
@@ -297,7 +334,15 @@ export default function AdminDashboard() {
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 16px' }}>
           {event && (
             <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 18 }}>
-              {event.branding?.logoUrl && <img src={event.branding.logoUrl} alt="Event Logo" style={{ maxHeight: 60, marginRight: 16, borderRadius: 12, boxShadow: '0 2px 12px #007cf022' }} />}
+              {event.branding?.logoUrl && (
+                <Image
+                  src={event.branding.logoUrl}
+                  alt="Event Logo"
+                  width={60}
+                  height={60}
+                  style={{ borderRadius: 12, boxShadow: '0 2px 12px #007cf022' }}
+                />
+              )}
               <div>
                 <div style={{ color: event.branding?.primaryColor || '#00dfd8', fontWeight: 900, fontSize: 32, letterSpacing: 1 }}>{event.name}</div>
                 <div style={{ color: event.branding?.secondaryColor || '#ff0080', fontWeight: 700, fontSize: 18 }}>{event.slug}</div>
@@ -338,9 +383,11 @@ export default function AdminDashboard() {
                         } else {
                           alert('Failed to generate QR code');
                         }
-                      } catch (error) {
-                        console.error('QR code download error:', error);
-                        alert('Failed to download QR code');
+                      } catch (error: unknown) {
+                        if (error instanceof Error) {
+                          console.error('QR code download error:', error);
+                          alert('Failed to download QR code');
+                        }
                       }
                     }}
                     style={{ background: 'linear-gradient(90deg,#ff0080,#7928ca)', color: '#fff', fontWeight: 700, border: 'none', borderRadius: 8, padding: '7px 18px', cursor: 'pointer', fontSize: 14, boxShadow: '0 2px 8px #ff008022' }}
@@ -450,7 +497,13 @@ export default function AdminDashboard() {
                         <td style={{ padding: '10px 8px', minWidth: 120 }}>
                           {b.paymentProof ? (
                             <a href={`${API_URL}${b.paymentProof}`} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', border: '2px solid #00dfd8', borderRadius: 6, overflow: 'hidden', background: '#fff', marginBottom: 4 }}>
-                              <img src={`${API_URL}${b.paymentProof}`} alt="Payment Screenshot" style={{ maxWidth: 80, maxHeight: 60, display: 'block' }} />
+                              <Image
+                                src={`${API_URL}${b.paymentProof}`}
+                                alt="Payment Screenshot"
+                                width={80}
+                                height={60}
+                                style={{ display: 'block' }}
+                              />
                             </a>
                           ) : (
                             <span style={{ color: '#bbb', fontStyle: 'italic' }}>No proof</span>

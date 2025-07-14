@@ -101,7 +101,7 @@ export default function Profile() {
 
   useEffect(() => {
     fetchBookings();
-  }, []);
+  }, [fetchBookings]);
 
   // Fetch recommendations
   useEffect(() => {
