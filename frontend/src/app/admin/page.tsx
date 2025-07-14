@@ -337,7 +337,7 @@ export default function AdminDashboard() {
         <NavBar />
         <main style={{ minHeight: '100vh', background: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div className="card" style={{ maxWidth: 420, width: '100%', margin: 'auto', textAlign: 'center', padding: 48 }}>
-            <h2 className={styles.animatedHeadline} style={{ fontSize: 32, marginBottom: 18 }}>Admin Dashboard</h2>
+            <h2 style={{ fontSize: 32, marginBottom: 18 }}>Admin Dashboard</h2>
             <div style={{ color: '#ff0080', fontWeight: 700, fontSize: 20 }}>Not authorized</div>
           </div>
         </main>
@@ -419,7 +419,7 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
-          <h1 className={styles.animatedHeadline} style={{ fontSize: 38, marginBottom: 32 }}>Admin Dashboard</h1>
+          <h1 style={{ fontSize: 38, marginBottom: 32 }}>Admin Dashboard</h1>
           <div className="card" style={{ background: 'rgba(255,255,255,0.13)', borderRadius: 22, boxShadow: '0 4px 32px #007cf022', padding: 36, marginBottom: 40, border: '1.5px solid #3333', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both' }}>
             <h2 style={{ color: '#00dfd8', fontWeight: 800, fontSize: 26, marginBottom: 18 }}>Create / Edit Activity</h2>
             <form onSubmit={handleSubmit} style={{ marginBottom: 32, background: 'var(--card-bg)', borderRadius: 16, boxShadow: '0 2px 8px #0006', padding: 28, border: '2px solid var(--primary)', display: 'flex', flexWrap: 'wrap', gap: 16 }}>
@@ -464,7 +464,7 @@ export default function AdminDashboard() {
               </form>
             ) : null}
           </div>
-          <h2 className={styles.animatedHeadline} style={{ fontSize: 28, marginBottom: 18 }}>All Activities</h2>
+          <h2 style={{ fontSize: 28, marginBottom: 18 }}>All Activities</h2>
           <div style={{ marginTop: 40 }}>
             <h2 style={{ color: '#00dfd8', fontWeight: 800, fontSize: 26, marginBottom: 18 }}>Activities</h2>
             {activities.map((activity) => (
