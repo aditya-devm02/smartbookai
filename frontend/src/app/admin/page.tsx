@@ -21,6 +21,20 @@ type Booking = {
   paymentTxnId?: string;
 };
 
+// Define EventType interface
+interface EventType {
+  name?: string;
+  slug?: string;
+  category?: string;
+  date?: string;
+  description?: string;
+  branding?: {
+    logoUrl?: string;
+    primaryColor?: string;
+    secondaryColor?: string;
+  };
+}
+
 export default function AdminDashboard() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [activities, setActivities] = useState<Activity[]>([]);
@@ -53,7 +67,7 @@ export default function AdminDashboard() {
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [event, setEvent] = useState<any>(null);
+  const [event, setEvent] = useState<EventType | null>(null);
   const [eventId, setEventId] = useState<string | null>(null);
   const [bookingsModal, setBookingsModal] = useState<{ activityId: string; title: string } | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
