@@ -238,6 +238,7 @@ export default function Activities() {
           width: '100%',
           maxWidth: 700,
         }}>
+          {/* Only render event name and slug ONCE here */}
           <h1 style={{ color: event?.branding?.primaryColor || '#007cf0', fontWeight: 900, fontSize: 'clamp(2rem, 7vw, 3.2rem)', letterSpacing: 1, marginBottom: 0, textAlign: 'center' }}>{event?.name}</h1>
           <h2 style={{ color: event?.branding?.secondaryColor || '#ff0080', fontWeight: 800, fontSize: 'clamp(1.2rem, 5vw, 2.2rem)', marginBottom: 24, textAlign: 'center', letterSpacing: 1 }}>{event?.slug}</h2>
           {/* Filter Bar */}
@@ -293,6 +294,17 @@ export default function Activities() {
             }
           `}</style>
         </div>
+        {/* Recommended for You section, left-aligned and spaced */}
+        {recommendations.length > 0 && (
+          <div style={{ maxWidth: 900, margin: '0 auto 32px auto', width: '100%', paddingLeft: 12 }}>
+            <h2 style={{ color: '#00dfd8', fontWeight: 800, fontSize: 22, marginBottom: 12, textAlign: 'left' }}>Recommended for You</h2>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+              {recommendations.map((rec, i) => (
+                <div key={i} style={{ background: 'rgba(0,223,216,0.08)', border: '2px solid #00dfd8', borderRadius: 12, color: '#00dfd8', fontWeight: 700, fontSize: 18, padding: '8px 18px', marginBottom: 8, cursor: 'pointer', transition: 'transform 0.2s', minWidth: 80 }} onClick={() => window.location.href = '/activities'}>{rec}</div>
+              ))}
+            </div>
+          </div>
+        )}
         {recLoading ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#aaa', fontWeight: 600, fontSize: 20, margin: '32px 0' }}>
             <ClipLoader color="#00dfd8" size={28} /> Loading recommendations...
