@@ -28,6 +28,7 @@ export default function NavBar() {
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState<number | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -36,6 +37,7 @@ export default function NavBar() {
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split(".")[1]));
+        setIsAdmin(payload.role === "admin");
         // Fetch event info for logo
         if (payload.eventId) {
           fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/events/${payload.eventId}`)
@@ -46,10 +48,10 @@ export default function NavBar() {
             });
         }
       } catch {
-        // setIsAdmin(false); // This line was removed as per the edit hint
+        setIsAdmin(false);
       }
     } else {
-      // setIsAdmin(false); // This line was removed as per the edit hint
+      setIsAdmin(false);
     }
 
     // Responsive: track window width
@@ -194,6 +196,11 @@ export default function NavBar() {
               Sign Up
             </Link>
           </>
+          {isAdmin && (
+            <Link href="/admin" className="primary" style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none', background: '#00dfd8', color: '#181824' }}>
+              Admin Dashboard
+            </Link>
+          )}
         </div>
       </nav>
     );
@@ -290,6 +297,11 @@ export default function NavBar() {
               {loggedIn && (
                 <button onClick={handleLogout} style={{ color: "#fff", fontWeight: 700, fontSize: 18, padding: "8px 22px", borderRadius: 18, background: "#ff0080", border: "none", marginTop: 8 }}>Logout</button>
               )}
+              {isAdmin && (
+                <Link href="/admin" className="primary" style={{ fontWeight: 700, fontSize: 18, padding: "8px 22px", borderRadius: 18, marginLeft: 0, textDecoration: 'none', background: '#00dfd8', color: '#181824', marginTop: 8 }}>
+                  Admin Dashboard
+                </Link>
+              )}
             </div>
           )}
         </>
@@ -305,6 +317,11 @@ export default function NavBar() {
             <Link href="/signup" className="secondary" style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none' }}>Sign Up</Link>
           </>}
           {loggedIn && <button onClick={handleLogout} style={{ color: "#fff", fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, background: "#ff0080", border: "none", marginLeft: 8 }}>Logout</button>}
+          {isAdmin && (
+            <Link href="/admin" className="primary" style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none', background: '#00dfd8', color: '#181824' }}>
+              Admin Dashboard
+            </Link>
+          )}
         </div>
       )}
     </nav>

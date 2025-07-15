@@ -228,45 +228,70 @@ export default function Activities() {
           </div>
         )}
         {/* Responsive filter bar */}
-        <div
-          style={{
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          margin: '0 auto',
+          marginBottom: 32,
+          width: '100%',
+          maxWidth: 700,
+        }}>
+          <h1 style={{ color: event?.branding?.primaryColor || '#007cf0', fontWeight: 900, fontSize: 'clamp(2rem, 7vw, 3.2rem)', letterSpacing: 1, marginBottom: 0, textAlign: 'center' }}>{event?.name}</h1>
+          <h2 style={{ color: event?.branding?.secondaryColor || '#ff0080', fontWeight: 800, fontSize: 'clamp(1.2rem, 5vw, 2.2rem)', marginBottom: 24, textAlign: 'center', letterSpacing: 1 }}>{event?.slug}</h2>
+          {/* Filter Bar */}
+          <form style={{
             display: 'flex',
-            flexDirection: 'row',
             flexWrap: 'wrap',
             gap: 16,
-            justifyContent: 'center',
             alignItems: 'center',
-            margin: '0 auto',
-            maxWidth: 1200,
-            padding: '0 8px',
-          }}
-        >
-          <label style={{ fontWeight: 700, color: '#232323' }}>
-            Category:
-            <select value={category} onChange={e => setCategory(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }}>
-              {categories.map(cat => <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>)}
-            </select>
-          </label>
-          <label style={{ fontWeight: 700, color: '#232323' }}>
-            Date:
-            <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }} />
-          </label>
-          <label style={{ fontWeight: 700, color: '#232323' }}>
-            Min Duration (min):
-            <input type="number" value={minDuration} onChange={e => setMinDuration(e.target.value)} style={{ width: 60, marginLeft: 8, color: '#232323', background: '#fff' }} />
-          </label>
-          <label style={{ fontWeight: 700, color: '#232323' }}>
-            Max Duration (min):
-            <input type="number" value={maxDuration} onChange={e => setMaxDuration(e.target.value)} style={{ width: 60, marginLeft: 8, color: '#232323', background: '#fff' }} />
-          </label>
-          <label style={{ fontWeight: 700, color: '#232323' }}>
-            Sort by:
-            <select value={sort} onChange={e => setSort(e.target.value)} style={{ marginLeft: 8, color: '#232323', background: '#fff' }}>
-              <option value="">None</option>
-              <option value="popularity">Popularity</option>
-              <option value="date">Date</option>
-            </select>
-          </label>
+            justifyContent: 'center',
+            marginBottom: 32,
+            width: '100%',
+            maxWidth: 700,
+          }}>
+            <label style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Category:
+              <select value={category} onChange={e => setCategory(e.target.value)} style={{ marginLeft: 8, padding: '8px 12px', borderRadius: 8, fontSize: 16, minWidth: 90 }}>
+                {categories.map(cat => <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>)}
+              </select>
+            </label>
+            <label style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Date:
+              <input type="date" value={date} onChange={e => setDate(e.target.value)} style={{ marginLeft: 8, padding: '8px 12px', borderRadius: 8, fontSize: 16 }} />
+            </label>
+            <label style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Min Duration (min):
+              <input type="number" value={minDuration} onChange={e => setMinDuration(e.target.value)} style={{ marginLeft: 8, padding: '8px 12px', borderRadius: 8, fontSize: 16, width: 80 }} />
+            </label>
+            <label style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Max Duration (min):
+              <input type="number" value={maxDuration} onChange={e => setMaxDuration(e.target.value)} style={{ marginLeft: 8, padding: '8px 12px', borderRadius: 8, fontSize: 16, width: 80 }} />
+            </label>
+            <label style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Sort by:
+              <select value={sort} onChange={e => setSort(e.target.value)} style={{ marginLeft: 8, padding: '8px 12px', borderRadius: 8, fontSize: 16, minWidth: 90 }}>
+                <option value="">None</option>
+                <option value="popularity">Popularity</option>
+                <option value="duration">Duration</option>
+                <option value="slots">Slots</option>
+              </select>
+            </label>
+          </form>
+          {/* Responsive styles for mobile */}
+          <style>{`
+            @media (max-width: 600px) {
+              form {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 12px !important;
+              }
+              form label {
+                width: 100% !important;
+                font-size: 15px !important;
+              }
+              form input, form select {
+                width: 100% !important;
+                font-size: 1rem !important;
+              }
+            }
+          `}</style>
         </div>
         {recLoading ? (
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#aaa', fontWeight: 600, fontSize: 20, margin: '32px 0' }}>
