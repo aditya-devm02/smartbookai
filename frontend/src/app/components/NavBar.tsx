@@ -179,6 +179,30 @@ export default function NavBar() {
             Help
           </Link>
           
+          {/* Activities Link - Always visible */}
+          <Link
+            href="/activities"
+            style={{
+              color: "#fff",
+              fontWeight: 700,
+              fontSize: 16,
+              padding: "8px 22px",
+              borderRadius: 18,
+              marginLeft: 8,
+              textDecoration: 'none',
+              background: "#007cf0",
+              transition: "background 0.2s, color 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+            onMouseOver={e => (e.currentTarget.style.background = "#005fa3")}
+            onMouseOut={e => (e.currentTarget.style.background = "#007cf0")}
+          >
+            <span style={{ fontSize: 16 }}>🎟️</span>
+            Activities
+          </Link>
+          
           {/* Show login/signup buttons during SSR */}
           <>
             <Link
@@ -292,6 +316,7 @@ export default function NavBar() {
                 ✨ Create Event
               </button>
               <Link href="/help" style={{ color: "#fff", fontWeight: 600, fontSize: 18, textDecoration: "none", padding: "8px 0", borderRadius: 16, background: "rgba(255,255,255,0.08)", marginBottom: 8 }}>❓ Help</Link>
+              <Link href="/activities" style={{ color: "#fff", fontWeight: 700, fontSize: 18, padding: "8px 22px", borderRadius: 18, marginLeft: 0, textDecoration: 'none', background: "#007cf0", marginBottom: 8 }}>🎟️ Activities</Link>
               <Link href="/login" className="primary" style={{ fontWeight: 700, fontSize: 18, padding: "8px 22px", borderRadius: 18, marginLeft: 0, textDecoration: 'none', marginBottom: 8 }}>Login</Link>
               <Link href="/signup" className="secondary" style={{ fontWeight: 700, fontSize: 18, padding: "8px 22px", borderRadius: 18, marginLeft: 0, textDecoration: 'none', marginBottom: 8 }}>Sign Up</Link>
               {loggedIn && (
@@ -312,6 +337,28 @@ export default function NavBar() {
             Create Event
           </button>
           <Link href="/help" style={{ color: "#fff", fontWeight: 600, fontSize: 16, textDecoration: "none", padding: "8px 16px", borderRadius: 16, transition: "background 0.2s, color 0.2s", background: "rgba(255,255,255,0.08)", display: "flex", alignItems: "center", gap: 6 }} onMouseOver={e => (e.currentTarget.style.background = "rgba(255,255,255,0.15)")} onMouseOut={e => (e.currentTarget.style.background = "rgba(255,255,255,0.08)")}> <span style={{ fontSize: 16 }}>❓</span> Help </Link>
+          <Link
+            href="/activities"
+            style={{
+              color: "#fff",
+              fontWeight: 700,
+              fontSize: 16,
+              padding: "8px 22px",
+              borderRadius: 18,
+              marginLeft: 8,
+              textDecoration: 'none',
+              background: "#007cf0",
+              transition: "background 0.2s, color 0.2s",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+            onMouseOver={e => (e.currentTarget.style.background = "#005fa3")}
+            onMouseOut={e => (e.currentTarget.style.background = "#007cf0")}
+          >
+            <span style={{ fontSize: 16 }}>🎟️</span>
+            Activities
+          </Link>
           {!loggedIn && <>
             <Link href="/login" className="primary" style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none' }}>Login</Link>
             <Link href="/signup" className="secondary" style={{ fontWeight: 700, fontSize: 16, padding: "8px 22px", borderRadius: 18, marginLeft: 8, textDecoration: 'none' }}>Sign Up</Link>
