@@ -189,69 +189,18 @@ export default function Activities() {
       }} />
       <NavBar />
       <main style={{ padding: 0, background: "var(--background)", minHeight: "100vh" }}>
-        {/* Plain event info block, no card styling */}
-        {!event ? (
-          <div style={{ textAlign: 'center', fontWeight: 700, fontSize: 28, margin: '40px 0', color: '#ff0080' }}>
-            Loading event info...
-          </div>
-        ) : (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: '0 auto',
-              marginTop: 40,
-              marginBottom: 48,
-              gap: 36,
-              flexWrap: 'wrap',
-              maxWidth: 1200,
-            }}
-          >
-            {event.branding?.logoUrl && (
-              <Image
-                src={event.branding.logoUrl}
-                alt={event.name}
-                width={200}
-                height={200}
-                style={{ borderRadius: 32, background: 'rgba(255,255,255,0.12)', marginBottom: 0 }}
-              />
-            )}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center', gap: 8 }}>
-              <div style={{ color: event.branding?.primaryColor || '#232323', fontWeight: 900, fontSize: 48, letterSpacing: 1, fontFamily: 'Inter, Segoe UI, Arial, sans-serif' }}>{event.name}</div>
-              <div style={{ color: event.branding?.secondaryColor || '#007cf0', fontWeight: 700, fontSize: 32, fontFamily: 'Inter, Segoe UI, Arial, sans-serif' }}>{event.slug}</div>
-              {event.category && <div style={{ color: '#00dfd8', fontWeight: 700, fontSize: 22 }}>Category: {event.category}</div>}
-              {event.date && <div style={{ color: '#232323', fontWeight: 600, fontSize: 20 }}>Date: {new Date(event.date).toLocaleDateString()}</div>}
-              {event.description && <div style={{ color: '#232323', fontSize: 18, opacity: 0.88, fontWeight: 500 }}>{event.description}</div>}
-            </div>
+        {/* Only render event name and slug ONCE at the top */}
+        {event && (
+          <div style={{
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '0 auto', marginTop: 40, marginBottom: 24, maxWidth: 900, width: '100%'
+          }}>
+            <h1 style={{ color: event.branding?.primaryColor || '#007cf0', fontWeight: 900, fontSize: 'clamp(2rem, 7vw, 3.2rem)', letterSpacing: 1, marginBottom: 0, textAlign: 'center' }}>{event.name}</h1>
+            <h2 style={{ color: event.branding?.secondaryColor || '#ff0080', fontWeight: 800, fontSize: 'clamp(1.2rem, 5vw, 2.2rem)', marginBottom: 24, textAlign: 'center', letterSpacing: 1 }}>{event.slug}</h2>
           </div>
         )}
-        {/* Responsive filter bar */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: '0 auto',
-          marginBottom: 32,
-          width: '100%',
-          maxWidth: 700,
-        }}>
-          {/* Only render event name and slug ONCE here */}
-          <h1 style={{ color: event?.branding?.primaryColor || '#007cf0', fontWeight: 900, fontSize: 'clamp(2rem, 7vw, 3.2rem)', letterSpacing: 1, marginBottom: 0, textAlign: 'center' }}>{event?.name}</h1>
-          <h2 style={{ color: event?.branding?.secondaryColor || '#ff0080', fontWeight: 800, fontSize: 'clamp(1.2rem, 5vw, 2.2rem)', marginBottom: 24, textAlign: 'center', letterSpacing: 1 }}>{event?.slug}</h2>
-          {/* Filter Bar */}
-          <form style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: 16,
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 32,
-            width: '100%',
-            maxWidth: 700,
-          }}>
+        {/* Filter Bar */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', margin: '0 auto', marginBottom: 32, width: '100%', maxWidth: 700 }}>
+          <form style={{ display: 'flex', flexWrap: 'wrap', gap: 16, alignItems: 'center', justifyContent: 'center', marginBottom: 0, width: '100%', maxWidth: 700 }}>
             <label style={{ color: '#fff', fontWeight: 600, fontSize: 16 }}>Category:
               <select value={category} onChange={e => setCategory(e.target.value)} style={{ marginLeft: 8, padding: '8px 12px', borderRadius: 8, fontSize: 16, minWidth: 90 }}>
                 {categories.map(cat => <option key={cat} value={cat}>{cat.charAt(0).toUpperCase() + cat.slice(1)}</option>)}
@@ -275,7 +224,6 @@ export default function Activities() {
               </select>
             </label>
           </form>
-          {/* Responsive styles for mobile */}
           <style>{`
             @media (max-width: 600px) {
               form {
@@ -294,8 +242,8 @@ export default function Activities() {
             }
           `}</style>
         </div>
-        {/* Recommended for You section, left-aligned and spaced */}
-        {recommendations.length > 0 && (
+        {/* Only render Recommended for You section ONCE, below filter bar */}
+        {!recLoading && recommendations.length > 0 && (
           <div style={{ maxWidth: 900, margin: '0 auto 32px auto', width: '100%', paddingLeft: 12 }}>
             <h2 style={{ color: '#00dfd8', fontWeight: 800, fontSize: 22, marginBottom: 12, textAlign: 'left' }}>Recommended for You</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
@@ -305,31 +253,8 @@ export default function Activities() {
             </div>
           </div>
         )}
-        {recLoading ? (
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#aaa', fontWeight: 600, fontSize: 20, margin: '32px 0' }}>
-            <ClipLoader color="#00dfd8" size={28} /> Loading recommendations...
-          </div>
-        ) : recommendations.length > 0 ? (
-          <div style={{ marginBottom: 36 }}>
-            <h2 className={styles.animatedHeadline} style={{ fontSize: 28, marginBottom: 18, letterSpacing: 0.5 }}>Recommended for You</h2>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 18 }}>
-              {recommendations.map((rec, i) => (
-                <div key={i} style={{ background: 'rgba(255,255,255,0.18)', borderRadius: 16, boxShadow: '0 2px 12px #007cf022', padding: '16px 32px', fontSize: 20, color: '#007cf0', fontWeight: 700, letterSpacing: 0.5, border: '1.5px solid #00dfd8', animation: 'fadeInAnim 1.2s cubic-bezier(.4,2,.6,1) both', animationDelay: `${i * 0.1 + 0.2}s` }}>{rec}</div>
-              ))}
-            </div>
-          </div>
-        ) : null}
         {/* Responsive activity cards grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: 24,
-            margin: '32px auto',
-            maxWidth: 1200,
-            padding: '0 8px',
-          }}
-        >
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24, margin: '32px auto', maxWidth: 1200, padding: '0 8px' }}>
           {activities.length === 0 && !loading ? (
             <div style={{ color: '#00dfd8', fontWeight: 700, fontSize: 22, marginTop: 32 }}>No activities found for your event.</div>
           ) : null}
