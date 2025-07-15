@@ -2,8 +2,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import NavBar from "../components/NavBar";
 import toast, { Toaster } from "react-hot-toast";
-import { ClipLoader } from "react-spinners";
-import styles from "../page.module.css";
 import Image from "next/image";
 
 type Activity = {
